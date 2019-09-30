@@ -1,0 +1,21 @@
+<table id="tableProfesor" class="table table-striped table-bordered" cellspacing="0" 
+       style="width: 100%; background-color: #E8E8E8; font-size: 0.9vw;">
+    <thead>
+        <tr>                                   
+            <th>ID</th>
+            <th>Nombre</th>	
+            <th>Apellido</th>	
+            <th>Edad</th>	
+            <th>Direccion</th>					
+        </tr>
+    </thead>     
+    <tbody>                   
+        <tr *ngFor="let profesor of profesores" >
+            <td>{{profesor.id}}</td>
+            <td>{{profesor.nombre}}</td>  
+            <td>{{profesor.apellido}}</td> 
+            <td>{{profesor.edad}}</td> 
+            <td>{{profesor.direccion}}</td>                
+        </tr>         
+    </tbody>
+</table>

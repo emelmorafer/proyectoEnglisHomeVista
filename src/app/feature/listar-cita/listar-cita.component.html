@@ -1,0 +1,35 @@
+<table id="tableCita" class="table table-striped table-bordered" cellspacing="0" 
+       style="width: 100%; background-color: #E8E8E8; font-size: 0.9vw;">
+    <thead>
+        <tr>                                   
+            <th>ID</th>
+            <th>Cliente</th>	
+            <th>Profesor</th>	
+            <th>Estado</th>	
+            <th>Fecha de inicio</th>	
+            <th>Fecha de fin</th>	
+            <th>Cantidad de horas</th>	
+            <th>Precio</th>	
+            <th>Direccion</th>	
+            <th>Nota</th>
+            <th>Aprobar</th>	
+            <th>Cancelar</th>		
+        </tr>
+    </thead>     
+    <tbody>                   
+        <tr *ngFor="let cita of citas" >
+            <td>{{cita.id}}</td>
+            <td>{{cita.nombreCompletoCliente}}</td>  
+            <td>{{cita.nombreCompletoProfesor}}</td> 
+            <td>{{cita.estadoCita}}</td> 
+            <td>{{cita.fechaInicio}}</td>  
+            <td>{{cita.fechaFin}}</td> 
+            <td>{{cita.cantidadHoras}}</td>  
+            <td>{{cita.precio}}</td> 
+            <td>{{cita.direccion}}</td> 
+            <td>{{cita.nota}}</td> 
+            <td>Aprobar</td>
+            <td>Cancelar</td>        
+        </tr>                                                                                                     
+    </tbody>
+</table>

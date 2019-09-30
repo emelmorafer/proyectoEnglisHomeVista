@@ -1,0 +1,92 @@
+<form #asignarCitaForm="ngForm">
+    <h1>
+      Asignar Cita
+    </h1>
+    <div class="alert alert-danger alert-dismissible fade show" *ngIf="mensajeError" id="mensaje-error">
+      <strong>Error! </strong>{{mensajeError}}
+      <button type="button" class="close" data-dismiss="alert">x</button>
+    </div>
+    <div class="alert alert-primary alert-dismissible fade show" *ngIf="mensajeExito" id="mensaje-exito">
+      <strong>Éxito! </strong>{{mensajeExito}}
+      <button type="button" class="close" data-dismiss="alert">x</button>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6">
+          <div class="form-group">
+            <label for="fechaInicio"><span class="hidden">Fecha y Hora inciales</span></label>
+              <div class="input-group date" data-target-input="nearest" NgTempusdominusBootstrap>
+                <input id="fechaInicio" class="form-control" [(ngModel)]="date" name="fechaInicio" 
+				       [options]="options" NgTempusdominusBootstrapInput type="text" required />
+                <div class="input-group-append" NgTempusdominusBootstrapToggle>
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2">
+        <div class="form-group">
+          <label for="cantidadHoras"><span class="hidden">Duración</span></label>
+          <input name="cantidadHoras" id="cantidadHoras" type="number" placeholder="Cantidad horas" ngModel required class="form-control">
+        </div>
+      </div>
+	  <div class="col-xs-2 col-sm-2 col-md-2">
+        <div class="form-input">
+		  <label for="consultar-valor-btn"><span class="hidden">Calcular Precio</span></label>
+          <button class="btn btn-primary" (click)="obtenerValor(asignarCitaForm)"
+            id="consultar-valor-btn">¿Cuánto vale?</button>
+        </div>
+      </div>
+	  <div class="col-xs-2 col-sm-2 col-md-2">
+        <div class="form-group">
+          <label for="precio"><span class="hidden">Precio</span></label>
+          <input type="text" name="precio" ngModel class="form-control" id="precio" 
+		  value="{{respuestaService}}" disabled="true"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6">
+        <div class="form-group">
+          <label for="direccion"><span class="hidden">Dirección</span></label>
+          <input name="direccion" id="direccion" type="text" placeholder="Dirección" ngModel required class="form-control">
+        </div>
+      </div>
+	  <div class="col-xs-6 col-sm-6 col-md-6">
+        <div class="form-group">
+          <label for="nota"><span class="hidden">Nota</span></label>
+          <input name="nota" id="nota" type="text" placeholder="Nota" ngModel required class="form-control">
+        </div>
+      </div>
+    </div>
+	<div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6">
+        <div class="form-group">
+          <label for="profesor"><span class="hidden">Escoger profesor</span></label>
+          <select class="form-control" ngModel id="idProfesor" name="idProfesor" required >
+              <option *ngFor="let profesor of profesores" [value]="profesor.id">{{profesor.nombre}} {{profesor.apellido}}</option>
+          </select>
+        </div>
+      </div>
+	  <div class="col-xs-6 col-sm-6 col-md-6">
+        <div class="form-group">
+          <label for="nota"><span class="hidden">Escoger cliente</span></label>
+          <select class="form-control" ngModel id="idCliente" name="idCliente" required>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id">{{cliente.nombre}} {{cliente.apellido}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">     
+      <div class="col-xs-3 col-sm-3 col-md-3">
+        <div class="form-input">
+          <button class="btn btn-primary" (click)="limpiar(true)">Limpiar</button>
+        </div>
+      </div>
+	  <div class="col-xs-3 col-sm-3 col-md-3">
+        <div class="form-input">
+          <button class="btn btn-primary" (click)="asignarCita(asignarCitaForm)" id="consultar-valor-btn">Asignar Cita</button>
+        </div>
+      </div>
+    </div>
+  
+</form>
