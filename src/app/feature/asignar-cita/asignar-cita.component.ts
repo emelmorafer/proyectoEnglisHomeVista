@@ -15,6 +15,7 @@ export class AsignarCitaComponent implements OnInit {
 
   public mensajeError: any;
   public mensajeExito: string;
+  public citaValida: any;
 
   asignarCitaForm: FormGroup;
   respuestaService: any[];
@@ -64,6 +65,7 @@ export class AsignarCitaComponent implements OnInit {
       this.mensajeExito = undefined;
     }
     this.mensajeError = undefined;
+    this.citaValida = false; 
   }
 
   consultarProfesoresDisponibles() {
@@ -94,34 +96,35 @@ export class AsignarCitaComponent implements OnInit {
     );
   }
 
-  asignarCita(form: { value: { fechaInicio: { format: string; }; }; }) {
-
-    this.verificarValidesGuardadoDeCita(form);
-    
-    if(this.respuestaService){
-      this.mensajeError = undefined;
-      this.clienteService.postAny('/guardarCita', form.value).subscribe(
-        (data: any[]) => {
-          this.clientes = data;
-          this.mensajeExito = 'Se ha creado de manera exitosa su cita.';
-          this.limpiar(false);
-        },
-        (error) => {
-          this.mensajeError = (error.error.message || error.message || 'Error interno de servidor');
-          console.log(error.error.message || error.error || 'Error interno de servidor');
-        }    
-      );
-    }else{
-      this.mensajeError = ('Esta cita se cruza con otra del mismo profesor');
-      console.log('Esta cita se cruza con otra del mismo profesor');
-    }
+  asignarCita(form: any) {
+    this.mensajeError = undefined;
+    console.log(JSON.stringify(form.value));
+    this.clienteService.postAny('/guardarCita', form.value).subscribe(
+      (data: any[]) => {
+        this.clientes = data;
+        this.mensajeExito = 'Se ha creado de manera exitosa su cita.';
+        this.limpiar(false);
+      },
+      (error) => {
+        this.mensajeError = (error.error.message || error.message || 'Error interno de servidor');
+        console.log(error.error.message || error.error || 'Error interno de servidor');
+      }    
+    );
   }
   
-  verificarValidesGuardadoDeCita(form) {
+  verificarValidesGuardadoDeCita(form: any) {
     this.mensajeError = undefined;
+    console.log(JSON.stringify(form.value));
     this.clienteService.postAny('/verificarValidesGuardadoDeCita', form.value).subscribe(
       (data: any[]) => {
-        this.respuestaService = data; 
+        this.citaValida = data;
+
+        if(this.citaValida){
+          this.asignarCita(form);
+        }else{
+          this.mensajeError = ('Esta cita se cruza con otra del mismo profesor');
+          console.log('Esta cita se cruza con otra del mismo profesor');
+        }
       },
       (error) => {
         this.mensajeError = (error.error.message || error.message || 'Error interno de servidor');

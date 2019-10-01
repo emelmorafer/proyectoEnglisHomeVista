@@ -46,7 +46,15 @@ const coreRoutes: Routes = [
           {
             path: 'listar-profesores',
             component: ListarProfesorComponent
-          }          
+          }, 
+          {
+            path: 'listar-citas-apr/:person/:id',
+            component: ListarCitaComponent
+          },
+          {
+            path: 'cambiar-estado-cita/:estado/:id',
+            component: ListarCitaComponent
+          }        
       ]
   }
 ];

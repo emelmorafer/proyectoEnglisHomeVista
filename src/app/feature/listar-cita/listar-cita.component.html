@@ -28,8 +28,14 @@
             <td>{{cita.precio}}</td> 
             <td>{{cita.direccion}}</td> 
             <td>{{cita.nota}}</td> 
-            <td>Aprobar</td>
-            <td>Cancelar</td>        
+            <td>
+                <a class="nav-link" routerLink="/cambiar-estado-cita/1/{{cita.id}}" 
+                routerLinkActive="active" id="cambiar-estado-cita-nav">Aprobar</a> 
+            </td>
+            <td>
+                <a class="nav-link" routerLink="/cambiar-estado-cita/2/{{cita.id}}" 
+                routerLinkActive="active" id="cambiar-estado-cita-nav">Rechazar</a> 
+            </td>        
         </tr>                                                                                                     
     </tbody>
 </table>

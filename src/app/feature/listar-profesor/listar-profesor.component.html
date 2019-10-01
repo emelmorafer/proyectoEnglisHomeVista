@@ -6,7 +6,8 @@
             <th>Nombre</th>	
             <th>Apellido</th>	
             <th>Edad</th>	
-            <th>Direccion</th>					
+            <th>Direccion</th>	
+            <th>Ver Citas</th>				
         </tr>
     </thead>     
     <tbody>                   
@@ -15,7 +16,11 @@
             <td>{{profesor.nombre}}</td>  
             <td>{{profesor.apellido}}</td> 
             <td>{{profesor.edad}}</td> 
-            <td>{{profesor.direccion}}</td>                
+            <td>{{profesor.direccion}}</td>    
+            <td>
+                <a class="nav-link" routerLink="/listar-citas-apr/2/{{profesor.id}}" 
+                routerLinkActive="active" id="listar-citas-apr-nav">Citas</a> 
+            </td>             
         </tr>         
     </tbody>
 </table>
