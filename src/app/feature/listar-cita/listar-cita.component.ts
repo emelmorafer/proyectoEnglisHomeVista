@@ -11,48 +11,35 @@ export class ListarCitaComponent implements OnInit {
 
   public mensajeError: any;
   public mensajeExito: string;
-  public idCliente: any;
-  public idPerson: any;
-  public idEstado: any;
+  public idCliente: number;
+  public idPerson: number;
 
 	respuestaService: any[];
   citas: any[];
   
 
-  constructor(private clienteService: ClienteGeneralService,
-              private route: ActivatedRoute) { 
+  constructor(private route: ActivatedRoute,
+              private clienteService: ClienteGeneralService) { 
     this.respuestaService = [];
     this.citas = [];	  
   }
 
   ngOnInit() {
-    this.actualizarListadoCitas();
-  }
-
-  actualizarListadoCitas(){
     this.idCliente = +this.route.snapshot.paramMap.get('id');
     this.idPerson = +this.route.snapshot.paramMap.get('person');
-    this.idEstado = +this.route.snapshot.paramMap.get('estado');  
 
-    if(this.idCliente==0){
+    if(this.idCliente==0 && this.idPerson==0){
       this.consultarCitasDisponibles();
-    }else{
-      if(this.idPerson==0){       
-        if(this.idEstado==1){
-          this.aprobarCita(this.idCliente);
-        }else{
-          this.rechazarCita(this.idCliente);
-        }        
-      }else{       
+    }else{    
         if(this.idPerson==1){
           this.consultarCitasAprobadasPorCliente(this.idCliente);
         }else{
           this.consultarCitasAprobadasPorProfesor(this.idCliente);
         }  
-      }
-    }
- 
+    };
   }
+
+
 
   consultarCitasDisponibles() {
     this.mensajeExito = undefined;
@@ -126,5 +113,6 @@ export class ListarCitaComponent implements OnInit {
       }
     );
   }
+
 
 }

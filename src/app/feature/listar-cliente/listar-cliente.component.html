@@ -7,6 +7,7 @@
             <th>Apellido</th>	
             <th>Edad</th>	
             <th>Direccion</th>	
+            <th>Modificar</th>
             <th>Ver Citas</th>			
         </tr>
     </thead>     
@@ -17,6 +18,10 @@
             <td>{{cliente.apellido}}</td> 
             <td>{{cliente.edad}}</td> 
             <td>{{cliente.direccion}}</td> 
+            <td>
+                <a class="nav-link" routerLink="/modificar-cliente/{{cliente.id}}" 
+                routerLinkActive="active" id="modificar-cliente-nav">Modificar</a> 
+            </td>  
             <td>
                 <a class="nav-link" routerLink="/listar-citas-apr/1/{{cliente.id}}" 
                 routerLinkActive="active" id="listar-citas-apr-nav">Citas</a> 

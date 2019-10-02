@@ -15,7 +15,6 @@ export class AsignarCitaComponent implements OnInit {
 
   public mensajeError: any;
   public mensajeExito: string;
-  public citaValida: any;
 
   asignarCitaForm: FormGroup;
   respuestaService: any[];
@@ -25,12 +24,11 @@ export class AsignarCitaComponent implements OnInit {
   constructor(private clienteService: ClienteGeneralService) {
     this.asignarCitaForm = new FormGroup({});
     this.respuestaService = [];
-    this.profesores = [];
-	  this.clientes = [];
   }
   
   
   ngOnInit() {
+    console.log("init data");
     const test = moment.defaultFormatUtc;
     console.log(test);
     const fechaActual = moment(new Date(), 'YYYY/MM/DD HH:mm').minutes(0).seconds(0).milliseconds(0).utc(true);
@@ -57,23 +55,24 @@ export class AsignarCitaComponent implements OnInit {
     );
   }
 
-  limpiar(limpiarExito: boolean) {
-    this.asignarCitaForm.reset();
+  limpiar(limpiarExito: boolean, form: any) {
+    this.profesores= [];
+    this.clientes= [];
+    form.reset();
     
     this.respuestaService = [];
     if (limpiarExito) {
       this.mensajeExito = undefined;
     }
     this.mensajeError = undefined;
-    this.citaValida = false; 
   }
 
   consultarProfesoresDisponibles() {
     this.mensajeExito = undefined;
     this.mensajeError = undefined;
     this.clienteService.getAny('/getListProfesor').subscribe(
-      (data: any[]) => {
-        this.profesores = data;
+      (profesores: any[]) => {
+        this.profesores = profesores;
       },
       (error) => {
         this.mensajeError = (error.error.message || error.message || 'Error interno de servidor');
@@ -86,12 +85,13 @@ export class AsignarCitaComponent implements OnInit {
     this.mensajeExito = undefined;
     this.mensajeError = undefined;
     this.clienteService.getAny('/getListCliente').subscribe(
-      (data: any[]) => {
-        this.clientes = data;
+      (clientes: any[]) => {
+        console.log(clientes);
+        this.clientes = clientes;
       },
       (error) => {
+        console.log(error.error.message || error.error || 'Error interno de servidor', error);
         this.mensajeError = (error.error.message || error.message || 'Error interno de servidor');
-        console.log(error.error.message || error.error || 'Error interno de servidor');
       }
     );
   }
@@ -100,10 +100,11 @@ export class AsignarCitaComponent implements OnInit {
     this.mensajeError = undefined;
     console.log(JSON.stringify(form.value));
     this.clienteService.postAny('/guardarCita', form.value).subscribe(
-      (data: any[]) => {
+      (data: any) => {
+        console.log(data);
         this.clientes = data;
         this.mensajeExito = 'Se ha creado de manera exitosa su cita.';
-        this.limpiar(false);
+        this.limpiar(false, form);
       },
       (error) => {
         this.mensajeError = (error.error.message || error.message || 'Error interno de servidor');
@@ -112,14 +113,12 @@ export class AsignarCitaComponent implements OnInit {
     );
   }
   
-  verificarValidesGuardadoDeCita(form: any) {
+  verificarValidesGuardadoDeCita(form: any) {  
     this.mensajeError = undefined;
     console.log(JSON.stringify(form.value));
     this.clienteService.postAny('/verificarValidesGuardadoDeCita', form.value).subscribe(
-      (data: any[]) => {
-        this.citaValida = data;
-
-        if(this.citaValida){
+      (data: any) => {
+        if(data){
           this.asignarCita(form);
         }else{
           this.mensajeError = ('Esta cita se cruza con otra del mismo profesor');

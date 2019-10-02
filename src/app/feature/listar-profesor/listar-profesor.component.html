@@ -7,6 +7,7 @@
             <th>Apellido</th>	
             <th>Edad</th>	
             <th>Direccion</th>	
+            <th>Modificar</th>
             <th>Ver Citas</th>				
         </tr>
     </thead>     
@@ -16,7 +17,11 @@
             <td>{{profesor.nombre}}</td>  
             <td>{{profesor.apellido}}</td> 
             <td>{{profesor.edad}}</td> 
-            <td>{{profesor.direccion}}</td>    
+            <td>{{profesor.direccion}}</td> 
+            <td>
+                <a class="nav-link" routerLink="/modificar-profesor/{{profesor.id}}" 
+                routerLinkActive="active" id="modificar-profesor-nav">Modificar</a> 
+            </td>    
             <td>
                 <a class="nav-link" routerLink="/listar-citas-apr/2/{{profesor.id}}" 
                 routerLinkActive="active" id="listar-citas-apr-nav">Citas</a> 

@@ -52,9 +52,13 @@ const coreRoutes: Routes = [
             component: ListarCitaComponent
           },
           {
-            path: 'cambiar-estado-cita/:estado/:id',
-            component: ListarCitaComponent
-          }        
+            path: 'modificar-cliente/:id',
+            component: AgregarClienteComponent
+          },
+          {
+            path: 'modificar-profesor/:id',
+            component: AgregarProfesorComponent
+          }         
       ]
   }
 ];

@@ -1,41 +1,41 @@
-<table id="tableCita" class="table table-striped table-bordered" cellspacing="0" 
-       style="width: 100%; background-color: #E8E8E8; font-size: 0.9vw;">
+<table id="tableCita" class="table table-striped table-bordered" cellspacing="0"
+    style="width: 100%; background-color: #E8E8E8; font-size: 0.9vw;">
     <thead>
-        <tr>                                   
+        <tr>
             <th>ID</th>
-            <th>Cliente</th>	
-            <th>Profesor</th>	
-            <th>Estado</th>	
-            <th>Fecha de inicio</th>	
-            <th>Fecha de fin</th>	
-            <th>Cantidad de horas</th>	
-            <th>Precio</th>	
-            <th>Direccion</th>	
+            <th>Cliente</th>
+            <th>Profesor</th>
+            <th>Estado</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Cantidad de horas</th>
+            <th>Precio</th>
+            <th>Direccion</th>
             <th>Nota</th>
-            <th>Aprobar</th>	
-            <th>Cancelar</th>		
+            <th>Aprobar</th>
+            <th>Cancelar</th>
         </tr>
-    </thead>     
-    <tbody>                   
-        <tr *ngFor="let cita of citas" >
+    </thead>
+    <tbody>
+        <tr *ngFor="let cita of citas">
             <td>{{cita.id}}</td>
-            <td>{{cita.nombreCompletoCliente}}</td>  
-            <td>{{cita.nombreCompletoProfesor}}</td> 
-            <td>{{cita.estadoCita}}</td> 
-            <td>{{cita.fechaInicio}}</td>  
-            <td>{{cita.fechaFin}}</td> 
-            <td>{{cita.cantidadHoras}}</td>  
-            <td>{{cita.precio}}</td> 
-            <td>{{cita.direccion}}</td> 
-            <td>{{cita.nota}}</td> 
+            <td>{{cita.nombreCompletoCliente}}</td>
+            <td>{{cita.nombreCompletoProfesor}}</td>
+            <td>{{cita.estadoCita}}</td>
+            <td>{{cita.fechaInicio}}</td>
+            <td>{{cita.fechaFin}}</td>
+            <td>{{cita.cantidadHoras}}</td>
+            <td>{{cita.precio}}</td>
+            <td>{{cita.direccion}}</td>
+            <td>{{cita.nota}}</td>
             <td>
-                <a class="nav-link" routerLink="/cambiar-estado-cita/1/{{cita.id}}" 
-                routerLinkActive="active" id="cambiar-estado-cita-nav">Aprobar</a> 
+                <button class="btn btn-primary" *ngIf="cita.estadoCita == 'PENDIENTE DE PAGO'"
+                    (click)="aprobarCita(cita.id)" id="consultar-valor-btn">Aprobar</button>
             </td>
             <td>
-                <a class="nav-link" routerLink="/cambiar-estado-cita/2/{{cita.id}}" 
-                routerLinkActive="active" id="cambiar-estado-cita-nav">Rechazar</a> 
-            </td>        
-        </tr>                                                                                                     
+                <button class="btn btn-primary" *ngIf="cita.estadoCita == 'PENDIENTE DE PAGO'"
+                    (click)="rechazarCita(cita.id)" id="rechazar-cita">Rechazar</button>
+            </td>
+        </tr>
     </tbody>
 </table>
