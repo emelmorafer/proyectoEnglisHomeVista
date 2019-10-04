@@ -3,6 +3,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ClienteGeneralService } from 'src/app/core/cliente-general.service';
 import { ActivatedRoute } from '@angular/router';
 
+const profesor = {
+  nombre: "",
+  apellido: "",
+  cedula: "",
+  edad: 0,
+  direccion: "",
+  id: ""
+}
+
 @Component({
   selector: 'app-agregar-profesor',
   templateUrl: './agregar-profesor.component.html',
@@ -14,14 +23,19 @@ export class AgregarProfesorComponent implements OnInit {
   public mensajeExito: string;
   public idProfesor: number;
 
-  agregarClienteForm: FormGroup;
-  respuestaService: any[];
-  profesores: any[];
+  agregarProfesorForm: FormGroup;
+  respuestaService = profesor;
 
   constructor(private route: ActivatedRoute,
               private clienteService: ClienteGeneralService) { 
-    this.agregarClienteForm = new FormGroup({});
-    this.profesores = [];
+    this.agregarProfesorForm = new FormGroup({ 
+      nombre: new FormControl(''), 
+      apellido: new FormControl(''), 
+      cedula: new FormControl(''), 
+      edad: new FormControl(''), 
+      direccion: new FormControl(''), 
+      id: new FormControl(''), 
+    });
   }
 
   ngOnInit() {
@@ -29,27 +43,24 @@ export class AgregarProfesorComponent implements OnInit {
 
     if(this.idProfesor!=0){
       this.obtenerProfesor(this.idProfesor);
-    }else{ 
-      this.respuestaService = []; 
-    };    
+    }  
   }
 
   limpiar(limpiarExito: boolean) {
-    this.agregarClienteForm.reset();
+    this.agregarProfesorForm.reset();
     
-    this.respuestaService = [];
+    this.respuestaService = profesor;
     if (limpiarExito) {
       this.mensajeExito = undefined;
     }
     this.mensajeError = undefined;
   }
 
-  agregarProfesor(form: any) {
+  agregarProfesor() {
     this.mensajeError = undefined;
-    console.log(JSON.stringify(form.value));
-    this.clienteService.postAny('/guardarProfesor', form.value).subscribe(
+    console.log(this.agregarProfesorForm.value);
+    this.clienteService.postAny('/guardarProfesor', this.agregarProfesorForm.value).subscribe(
       (data: any[]) => {
-        this.profesores = data;
         this.mensajeExito = 'El nuevo profesor ha sido ingresado de forma exitosa';
         this.limpiar(false);
       },
@@ -63,7 +74,17 @@ export class AgregarProfesorComponent implements OnInit {
   obtenerProfesor(id: any) {
     this.mensajeError = undefined;
     this.clienteService.getAny('/getProfesorById?id=' + id).subscribe(
-      (data: any[]) => {
+      (data: any) => {
+        console.log(data);
+
+        this.agregarProfesorForm.setValue({       
+          nombre: data.nombre,       
+          apellido: data.apellido,       
+          cedula: data.cedula,
+          edad: data.edad,       
+          direccion: data.direccion,       
+          id: data.id     
+        });
         this.respuestaService = data;
       },
       (error) => {

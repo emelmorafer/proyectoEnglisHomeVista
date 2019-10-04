@@ -3,6 +3,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ClienteGeneralService } from 'src/app/core/cliente-general.service';
 import { ActivatedRoute } from '@angular/router';
 
+const cliente = {
+  nombre: "",
+  apellido: "",
+  cedula: "",
+  edad: 0,
+  direccion: "",
+  id: ""
+}
+
 @Component({
   selector: 'app-agregar-cliente',
   templateUrl: './agregar-cliente.component.html',
@@ -15,13 +24,19 @@ export class AgregarClienteComponent implements OnInit {
   public idCliente: number;
 
   agregarClienteForm: FormGroup;
-  respuestaService: any[];
-  clientes: any[];
+  respuestaService = cliente;
 
   constructor(private route: ActivatedRoute,
               private clienteService: ClienteGeneralService) {
-    this.agregarClienteForm = new FormGroup({}); 
-    this.clientes = [];
+
+    this.agregarClienteForm = new FormGroup({ 
+      nombre: new FormControl(''), 
+      apellido: new FormControl(''), 
+      cedula: new FormControl(''), 
+      edad: new FormControl(''), 
+      direccion: new FormControl(''), 
+      id: new FormControl(''), 
+    });
   }
 
   ngOnInit() {
@@ -29,27 +44,24 @@ export class AgregarClienteComponent implements OnInit {
 
     if(this.idCliente!=0){
       this.obtenerCliente(this.idCliente);
-    }else{ 
-      this.respuestaService = []; 
-    };
+    }
   }
 
   limpiar(limpiarExito: boolean) {
     this.agregarClienteForm.reset();
     
-    this.respuestaService = [];
+    this.respuestaService = cliente;
     if (limpiarExito) {
       this.mensajeExito = undefined;
     }
     this.mensajeError = undefined;
   }
 
-  agregarCliente(form: any) {
+  agregarCliente() {
     this.mensajeError = undefined;
-    console.log(JSON.stringify(form.value));
-    this.clienteService.postAny('/guardarCliente', form.value).subscribe(
-      (data: any[]) => {
-        this.clientes = data;
+    console.log(this.agregarClienteForm.value);
+    this.clienteService.postAny('/guardarCliente', this.agregarClienteForm.value).subscribe(
+      (data: any) => {
         this.mensajeExito = 'El nuevo cliente ha sido ingresado de forma exitosa';
         this.limpiar(false);
       },
@@ -63,7 +75,18 @@ export class AgregarClienteComponent implements OnInit {
   obtenerCliente(id: any) {
     this.mensajeError = undefined;
     this.clienteService.getAny('/getClienteById?id=' + id).subscribe(
-      (data: any[]) => {
+      (data: any) => {
+        console.log(data);
+
+        this.agregarClienteForm.setValue({       
+          nombre: data.nombre,       
+          apellido: data.apellido,       
+          cedula: data.cedula,
+          edad: data.edad,       
+          direccion: data.direccion,       
+          id: data.id     
+        });
+
         this.respuestaService = data;
       },
       (error) => {
