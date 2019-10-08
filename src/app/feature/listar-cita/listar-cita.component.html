@@ -17,8 +17,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let cita of citas">
-            <td id='cliente_{{cita.id}}' >{{cita.id}}</td>
+        <tr *ngFor="let cita of citas" id="listCitas">
+            <td id='cita_{{cita.id}}' >{{cita.id}}</td>
             <td>{{cita.nombreCompletoCliente}}</td>
             <td>{{cita.nombreCompletoProfesor}}</td>
             <td>{{cita.estadoCita}}</td>
